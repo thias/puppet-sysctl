@@ -16,6 +16,6 @@ You can also force a value to ensure => absent, which will always work.
 
 Examples :
 
-  sysctl { 'net.ipv4.ip_forward': value => '1' }
-  sysctl { 'net.core.somaxconn': value => '65536' }
+    sysctl { 'net.ipv4.ip_forward': value => '1' }
+    sysctl { 'net.core.somaxconn': value => '65536' }
 

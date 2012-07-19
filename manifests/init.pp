@@ -10,7 +10,7 @@
 # Sample Usage :
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
-define sysctl ( value = undef, ensure = undef ) {
+define sysctl ( $value = undef, $ensure = undef ) {
 
     # Parent purged directory
     include sysctl::base
