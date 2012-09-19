@@ -1,5 +1,5 @@
 name 'thias-sysctl'
-version '0.0.1'
+version '0.0.2'
 source 'git://github.com/thias/puppet-modules/modules/sysctl'
 author 'Matthias Saou'
 license 'Apache 2.0'
