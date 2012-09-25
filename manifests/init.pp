@@ -31,5 +31,12 @@ define sysctl ( $value = undef, $ensure = undef ) {
         refreshonly => true,
     }
 
+    # For the few original values from the main file
+    exec { "update-sysctl.conf-${title}":
+        command => "sed -i -e 's/${title} =.*/${title} = ${value}/' /etc/sysctl.conf",
+        unless  => "/bin/bash -c \"! egrep '^${title} =' /etc/sysctl.conf || egrep '^${title} = ${value}\$' /etc/sysctl.conf\"",
+        path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+    }
+
 }
 

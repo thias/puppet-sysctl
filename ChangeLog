@@ -1,3 +1,5 @@
+* Add feature to update existing values in /etc/sysctl.conf.
+
 2012-09-19 - 0.0.2
 * Fix deprecation warnings.
 * Fix README markup.
