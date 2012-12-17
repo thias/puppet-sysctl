@@ -27,8 +27,8 @@ define sysctl ( $value = undef, $ensure = undef ) {
 
     # The immediate change
     exec { "sysctl-${title}":
-        command     => "/sbin/sysctl -w ${title}=${value}",
-        refreshonly => true,
+        command => "/sbin/sysctl -w ${title}=${value}",
+        unless  => "/bin/echo $(/sbin/sysctl -n ${title}) | /bin/grep -q -e '^${value}$'",
     }
 
     # For the few original values from the main file
