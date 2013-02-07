@@ -1,4 +1,8 @@
-sysctl
+puppet-sysctl
+=============
+
+Overview
+--------
 
 Manage sysctl variable values. Tested on Red Hat Enterprise Linux 6.
 
@@ -14,7 +18,8 @@ Beware also that for the purge to work, you need to either have at least one
 sysctl definition call left for the node, or include sysctl::base manually.
 You can also force a value to ensure => absent, which will always work.
 
-Examples :
+Examples
+--------
 
     sysctl { 'net.ipv4.ip_forward': value => '1' }
     sysctl { 'net.core.somaxconn': value => '65536' }
