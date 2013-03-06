@@ -4,14 +4,14 @@
 # 
 class sysctl::base {
 
-    file { '/etc/sysctl.d':
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
-        ensure => directory,
-        # Magic hidden here
-        purge  => true,
-    }
+  file { '/etc/sysctl.d':
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    ensure => directory,
+    # Magic hidden here
+    purge  => true,
+  }
 
 }
 
