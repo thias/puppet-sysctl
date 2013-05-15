@@ -2,7 +2,9 @@
 #
 # Common part for the sysctl definition. Not meant to be used on its own.
 # 
-class sysctl::base {
+class sysctl::base (
+  $purge = true
+) {
 
   file { '/etc/sysctl.d':
     owner  => 'root',
@@ -10,7 +12,7 @@ class sysctl::base {
     mode   => '0755',
     ensure => directory,
     # Magic hidden here
-    purge  => true,
+    purge  => $purge,
   }
 
 }
