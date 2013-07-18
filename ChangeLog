@@ -1,6 +1,7 @@
 2013-06-25 - 0.1.1
 * Make purge optional, still enabled by default.
 * Add rspec tests (Justin Lambert).
+* Minor fix for values with spaces (needs more changes to be robust).
 
 2013-03-06 - 0.1.0
 * Update README to markdown.
