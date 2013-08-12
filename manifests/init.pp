@@ -19,11 +19,11 @@ define sysctl ( $value = undef, $ensure = undef ) {
 
   # The permanent change
   file { "/etc/sysctl.d/${title}.conf":
+    ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
     content => "${title} = ${value}\n",
-    ensure  => $ensure,
   }
 
   if $ensure != 'absent' {
