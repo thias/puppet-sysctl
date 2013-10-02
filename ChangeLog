@@ -1,3 +1,6 @@
+2013-10-02 - 0.2.0
+* Add optional prefix to the sysctl.d file name, to force ordering.
+
 2013-06-25 - 0.1.1
 * Make purge optional, still enabled by default.
 * Add rspec tests (Justin Lambert).

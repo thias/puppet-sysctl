@@ -5,6 +5,8 @@
 # Parameters:
 #  $value:
 #    The value for the sysctl parameter. Mandatory, unless $ensure is 'absent'.
+#  $prefix:
+#    Optional prefix for the sysctl.d file to be created. Default: none.
 #  $ensure:
 #    Whether the variable's value should be 'present' or 'absent'.
 #    Defaults to 'present'.
@@ -12,13 +14,24 @@
 # Sample Usage :
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
-define sysctl ( $value = undef, $ensure = undef ) {
+define sysctl (
+  $value  = undef,
+  $prefix = undef,
+  $ensure = undef,
+) {
 
-  # Parent purged directory
+  # Parent purged (by default) directory
   include sysctl::base
 
+  # If we have a prefix, then add the dash to it
+  if $prefix {
+    $sysctl_d_file = "${prefix}-${title}.conf"
+  } else {
+    $sysctl_d_file = "${title}.conf"
+  }
+
   # The permanent change
-  file { "/etc/sysctl.d/${title}.conf":
+  file { "/etc/sysctl.d/${sysctl_d_file}":
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',

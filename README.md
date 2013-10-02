@@ -34,3 +34,8 @@ because it was set at some point but no longer needs to be :
 
     sysctl { 'vm.swappiness': ensure => absent }
 
+If the order in which the files get applied is important, you can set it by
+using a file name prefix :
+
+    Sysctl { prefix => '60' }
+
