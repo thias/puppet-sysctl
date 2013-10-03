@@ -17,6 +17,7 @@
 define sysctl (
   $value  = undef,
   $prefix = undef,
+  $comment = undef,
   $ensure = undef,
 ) {
 
@@ -30,13 +31,16 @@ define sysctl (
     $sysctl_d_file = "${title}.conf"
   }
 
+  # comment accepts an array or string.  will prepend # to string(s) and/or turn array into string with newlines.
+  $comments = inline_template("<%=if @comment.is_a?(Array) then @comment.map { |c| \"##{c}\"}.join(\"\n\")+\"\n\" else \"##{@comment}\n\" end -%>")
+
   # The permanent change
   file { "/etc/sysctl.d/${sysctl_d_file}":
     ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "${title} = ${value}\n",
+    content => "${comments}${title} = ${value}\n",
   }
 
   if $ensure != 'absent' {
