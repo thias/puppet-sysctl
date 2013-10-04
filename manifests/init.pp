@@ -15,9 +15,10 @@
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
 define sysctl (
-  $value  = undef,
-  $prefix = undef,
-  $ensure = undef,
+  $value   = undef,
+  $prefix  = undef,
+  $comment = undef,
+  $ensure  = undef,
 ) {
 
   # Parent purged (by default) directory
@@ -36,7 +37,7 @@ define sysctl (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "${title} = ${value}\n",
+    content => template("${module_name}/sysctl.d-file.erb"),
   }
 
   if $ensure != 'absent' {
