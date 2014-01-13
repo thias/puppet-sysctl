@@ -1,4 +1,5 @@
 * Add optional comment inside the sysctl.d file.
+* Use sysctl -p with the created/modified file instead of sysctl -w (#3).
 
 2013-10-02 - 0.2.0
 * Add optional prefix to the sysctl.d file name, to force ordering.
