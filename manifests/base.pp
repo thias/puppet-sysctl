@@ -3,7 +3,7 @@
 # Common part for the sysctl definition. Not meant to be used on its own.
 #
 class sysctl::base (
-  $purge = true
+  $purge = true,
 ) {
 
   file { '/etc/sysctl.d':
