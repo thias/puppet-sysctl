@@ -6,6 +6,12 @@ class sysctl::base (
   $purge = true,
 ) {
 
+  if $purge {
+    $recurse = true
+  } else {
+    $recurse = false
+  }
+
   file { '/etc/sysctl.d':
     ensure => directory,
     owner  => 'root',
@@ -13,6 +19,7 @@ class sysctl::base (
     mode   => '0755',
     # Magic hidden here
     purge  => $purge,
+    recurse => $recurse,
   }
 
 }
