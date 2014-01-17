@@ -13,12 +13,12 @@ class sysctl::base (
   }
 
   file { '/etc/sysctl.d':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
     # Magic hidden here
-    purge  => $purge,
+    purge   => $purge,
     recurse => $recurse,
   }
 
