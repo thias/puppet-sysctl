@@ -21,7 +21,6 @@ define sysctl (
   $ensure  = undef,
 ) {
 
-  # Parent purged (by default) directory
   include sysctl::base
 
   # If we have a prefix, then add the dash to it
