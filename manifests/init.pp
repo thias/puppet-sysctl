@@ -30,20 +30,22 @@ define sysctl (
     $sysctl_d_file = "${title}.conf"
   }
 
-  # The permanent change
-  file { "/etc/sysctl.d/${sysctl_d_file}":
-    ensure  => $ensure,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template("${module_name}/sysctl.d-file.erb"),
-    notify  => [
-      Exec["sysctl-${title}"],
-      Exec["update-sysctl.conf-${title}"],
-    ],
-  }
-
   if $ensure != 'absent' {
+
+    # Present
+
+    # The permanent change
+    file { "/etc/sysctl.d/${sysctl_d_file}":
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template("${module_name}/sysctl.d-file.erb"),
+      notify  => [
+        Exec["sysctl-${title}"],
+        Exec["update-sysctl.conf-${title}"],
+      ],
+    }
 
     # The immediate change + re-check on each run "just in case"
     exec { "sysctl-${title}":
@@ -58,6 +60,15 @@ define sysctl (
       path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
+    }
+
+  } else {
+
+    # Absent
+    # We cannot restore values, since defaults can not be known... reboot :-/
+
+    file { "/etc/sysctl.d/${sysctl_d_file}":
+      ensure => absent,
     }
 
   }

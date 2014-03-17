@@ -1,3 +1,6 @@
+2014-03-17 - 0.3.1
+* Fix ensure => 'absent' (#9).
+
 2014-01-20 - 0.3.0
 * Add optional comment inside the sysctl.d file.
 * Use sysctl -p with the created/modified file instead of sysctl -w (#3).
