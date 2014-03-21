@@ -21,7 +21,7 @@ define sysctl (
   $ensure  = undef,
 ) {
 
-  include sysctl::base
+  include '::sysctl::base'
 
   # If we have a prefix, then add the dash to it
   if $prefix {
