@@ -19,7 +19,7 @@ sysctl definition call left for the node, or include `sysctl::base` manually.
 
 You may also force a value to `ensure => absent`, which will always work.
 
-For the few original settings in the main `/etc/sysct.conf` file, the value is
+For the few original settings in the main `/etc/sysctl.conf` file, the value is
 also replaced so that running `sysctl -p` doesn't revert any change made by
 puppet.
 
