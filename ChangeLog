@@ -1,3 +1,6 @@
+2014-07-19 - 0.3.2
+* Use a different separator for sed to allow values with '/' (#11, @rubenk).
+
 2014-03-17 - 0.3.1
 * Fix ensure => 'absent' (#9).
 
