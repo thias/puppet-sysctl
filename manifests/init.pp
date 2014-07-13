@@ -56,7 +56,7 @@ define sysctl (
 
     # For the few original values from the main file
     exec { "update-sysctl.conf-${title}":
-      command     => "sed -i -e 's/^${title} *=.*/${title} = ${value}/' /etc/sysctl.conf",
+      command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
       path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
