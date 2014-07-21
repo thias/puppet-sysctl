@@ -22,7 +22,7 @@ define sysctl (
 ) {
 
   include '::sysctl::base'
-  include '::systl::params'
+  include '::sysctl::params'
 
   # If we have a prefix, then add the dash to it
   if $prefix {
