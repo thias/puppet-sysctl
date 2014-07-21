@@ -77,7 +77,8 @@ define sysctl (
   } else {
 
     # The permanent change
-    file_line { $::sysctl::params::sysctl_location:
+    file_line { "sysctl.conf line for ${title}":
+      path   => $::sysctl::params::sysctl_location,
       line   => "${title}=${value}",
       notify => Exec["sysctl ${title}"],
     }
