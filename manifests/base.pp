@@ -6,9 +6,10 @@ class sysctl::base (
   $purge = false,
 ) {
 
-  $ensure = $::sysctl::params::ensure
-  $group  = $::systcl::params::group
-  $mode   = $::sysctl::params::mode
+  $sysctl_location = $::sysctl::params::sysctl_location
+  $ensure          = $::sysctl::params::ensure
+  $group           = $::systcl::params::group
+  $mode            = $::sysctl::params::mode
 
   if $purge {
     $recurse = true
