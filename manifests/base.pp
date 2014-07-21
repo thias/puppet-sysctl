@@ -12,11 +12,11 @@ class sysctl::base (
     $recurse = false
   }
 
-  file { '/etc/sysctl.d':
-    ensure  => directory,
+  file { $::systcl::params::sysctl_location:
+    ensure  => $::sysctl::params::ensure,
     owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
+    group   => $::systcl::params::group,
+    mode    => $::sysctl::params::mode,
     # Magic hidden here
     purge   => $purge,
     recurse => $recurse,

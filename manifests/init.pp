@@ -30,48 +30,63 @@ define sysctl (
     $sysctl_d_file = "${title}.conf"
   }
 
-  if $ensure != 'absent' {
+  if $::osfamily != 'FreeBSD' {
+    if $ensure != 'absent' {
 
-    # Present
+      # Present
 
-    # The permanent change
-    file { "/etc/sysctl.d/${sysctl_d_file}":
-      ensure  => $ensure,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template("${module_name}/sysctl.d-file.erb"),
-      notify  => [
-        Exec["sysctl-${title}"],
-        Exec["update-sysctl.conf-${title}"],
-      ],
-    }
+      # The permanent change
+      file { "/etc/sysctl.d/${sysctl_d_file}":
+        ensure  => $ensure,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template("${module_name}/sysctl.d-file.erb"),
+        notify  => [
+          Exec["sysctl-${title}"],
+          Exec["update-sysctl.conf-${title}"],
+        ],
+      }
 
-    # The immediate change + re-check on each run "just in case"
-    exec { "sysctl-${title}":
-      command     => "/sbin/sysctl -p /etc/sysctl.d/${sysctl_d_file}",
-      refreshonly => true,
-      require     => File["/etc/sysctl.d/${sysctl_d_file}"],
-    }
+      # The immediate change + re-check on each run "just in case"
+      exec { "sysctl-${title}":
+        command     => "/sbin/sysctl -p /etc/sysctl.d/${sysctl_d_file}",
+        refreshonly => true,
+        require     => File["/etc/sysctl.d/${sysctl_d_file}"],
+      }
 
-    # For the few original values from the main file
-    exec { "update-sysctl.conf-${title}":
-      command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
-      refreshonly => true,
-      onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
+      # For the few original values from the main file
+      exec { "update-sysctl.conf-${title}":
+        command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
+        path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+        refreshonly => true,
+        onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
+      }
+
+    } else {
+
+      # Absent
+      # We cannot restore values, since defaults can not be known... reboot :-/
+
+      file { "/etc/sysctl.d/${sysctl_d_file}":
+        ensure => absent,
+      }
     }
 
   } else {
 
-    # Absent
-    # We cannot restore values, since defaults can not be known... reboot :-/
-
-    file { "/etc/sysctl.d/${sysctl_d_file}":
-      ensure => absent,
+    # The permanent change
+    file_line { $::sysctl::params::sysctl_location:
+      line   => "${title}=${value}",
+      notify => Exec["sysctl ${title}"],
     }
 
+    # The immediate change + re-check on each run "just in case"
+    exec { "sysctl ${title}":
+      command     => "/sbin/sysctl ${title}={$value}",
+      refreshonly => true,
+      onlyif      => "grep -E '^${title}=' /etc/sysctl.conf",
+    }
   }
-
 }
 
