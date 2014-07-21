@@ -85,7 +85,7 @@ define sysctl (
 
     # The immediate change + re-check on each run "just in case"
     exec { "sysctl ${title}":
-      command     => "/sbin/sysctl ${title}={$value}",
+      command     => "/sbin/sysctl ${title}=${value}",
       refreshonly => true,
       onlyif      => "grep -E '^${title}=' /etc/sysctl.conf",
     }
