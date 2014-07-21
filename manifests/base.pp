@@ -17,7 +17,7 @@ class sysctl::base (
     $recurse = false
   }
 
-  file { $::sysctl::params::sysctl_location:
+  file { $sysctl_location:
     ensure  => $ensure,
     owner   => 'root',
     group   => $group,
