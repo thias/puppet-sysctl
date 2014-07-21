@@ -6,6 +6,10 @@ class sysctl::base (
   $purge = false,
 ) {
 
+  $ensure = $::sysctl::params::ensure
+  $group  = $::systcl::params::group
+  $mode   = $::sysctl::params::mode
+
   if $purge {
     $recurse = true
   } else {
@@ -13,10 +17,10 @@ class sysctl::base (
   }
 
   file { $::sysctl::params::sysctl_location:
-    ensure  => $::sysctl::params::ensure,
+    ensure  => $ensure,
     owner   => 'root',
-    group   => $::systcl::params::group,
-    mode    => $::sysctl::params::mode,
+    group   => $group,
+    mode    => $mode,
     # Magic hidden here
     purge   => $purge,
     recurse => $recurse,
