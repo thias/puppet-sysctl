@@ -4,11 +4,9 @@
 #
 class sysctl::base (
   $purge = false,
-) {
+) inherits params {
 
-  include ::sysctl::params
-  $sysctl_location = $::sysctl::params::sysctl_location
-  $ensure          = $::sysctl::params::ensure
+  $sysctl_dir_location = $::sysctl::params::sysctl_dir_location
   $group           = $::systcl::params::group
   $mode            = $::sysctl::params::mode
 
@@ -18,8 +16,8 @@ class sysctl::base (
     $recurse = false
   }
 
-  file { $sysctl_location:
-    ensure  => $ensure,
+  file { $sysctl_dir_location:
+    ensure  => directory,
     owner   => 'root',
     group   => $group,
     mode    => $mode,

@@ -1,14 +1,12 @@
 class sysctl::params {
-  case $::osfamily {
-    'FreeBSD': {
-      $sysctl_location = '/etc/sysctl.conf'
-      $ensure          = 'file'
-      $group           = 'wheel'
-      $mode            = '0644'
+  case $::kernel {
+    'Linux': {
+      $sysctl_dir_location = '/etc/sysctl.d'
+      $group           = 'root'
+      $mode            = '0755'
     }
     default: {
-      $sysctl_location = '/etc/sysctl.d'
-      $ensure          = 'directory'
+      $sysctl_dir_location = '/etc/sysctl.d'
       $group           = 'root'
       $mode            = '0755'
     }
