@@ -7,8 +7,8 @@ class sysctl::base (
 ) inherits params {
 
   $sysctl_dir_location = $::sysctl::params::sysctl_dir_location
-  $group           = $::systcl::params::group
-  $mode            = $::sysctl::params::mode
+  $group               = $::systcl::params::group
+  $mode                = $::sysctl::params::mode
 
   if $purge {
     $recurse = true
