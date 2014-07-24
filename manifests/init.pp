@@ -23,7 +23,7 @@ define sysctl (
 ) {
 
   # validate management input
-  if ! member(['directory', 'file']) {
+  if ! member(['directory', 'file'], $management) {
     fail ("you must specify either directory or file")
   }
 
