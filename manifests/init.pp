@@ -27,11 +27,11 @@ define sysctl (
   notify {"value fully qualified: ${::sysctl::params::management}":}
 
   # validate management input
-  if ! member(['directory', 'file'], $management) {
+  if ! member(['directory', 'file'], $::sysctl::params::management) {
     fail ("you must specify either directory or file")
   }
 
-  case $management {
+  case $::sysctl::params::management {
     'directory': {
       include ::sysctl::base
 
