@@ -97,7 +97,7 @@ define sysctl (
 
         # The permanent change
         file_line { "sysctl.conf line for ${title}":
-          path   => $::sysctl::params::sysctl_conf_location,
+          path   => '/etc/sysctl.conf',
           line   => "${title}=${value}",
           match  => "^${title} *=",
           notify => Exec["sysctl ${title}"],
