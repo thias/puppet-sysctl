@@ -23,8 +23,8 @@ define sysctl (
 ) {
 
   include ::sysctl::params
-  notify {"value:  ${management}"}
-  notify {"value fully qualified: ${::sysctl::params::management}"}
+  notify {"value:  ${management}":}
+  notify {"value fully qualified: ${::sysctl::params::management}":}
 
   # validate management input
   if ! member(['directory', 'file'], $management) {
