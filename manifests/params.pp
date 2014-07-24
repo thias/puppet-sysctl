@@ -1,5 +1,5 @@
 class sysctl::params {
-  case $::kernel {
+  case $::osfamily {
     'FreeBSD': {
       $management          = 'file'
     }

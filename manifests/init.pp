@@ -22,6 +22,8 @@ define sysctl (
   $ensure     = undef,
 ) {
 
+  include ::sysctl::params
+
   # validate management input
   if ! member(['directory', 'file'], $management) {
     fail ("you must specify either directory or file")
