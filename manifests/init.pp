@@ -18,7 +18,7 @@ define sysctl (
   $value      = undef,
   $prefix     = undef,
   $comment    = undef,
-  $management = $::sysctl::params::management
+  $management = $::sysctl::params::management,
   $ensure     = undef,
 ) {
 
