@@ -1,14 +1,13 @@
 class sysctl::params {
   case $::kernel {
-    'Linux': {
-      $sysctl_dir_location = '/etc/sysctl.d'
-      $group           = 'root'
-      $mode            = '0755'
+    'FreeBSD': {
+      $management          = 'file'
     }
     default: {
       $sysctl_dir_location = '/etc/sysctl.d'
-      $group           = 'root'
-      $mode            = '0755'
+      $group               = 'root'
+      $mode                = '0755'
+      $management          = 'directory'
     }
   }
 }
