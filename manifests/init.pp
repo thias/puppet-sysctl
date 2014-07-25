@@ -14,25 +14,29 @@
 # Sample Usage :
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
-include ::sysctl::params
 
 define sysctl (
   $value      = undef,
   $prefix     = undef,
   $comment    = undef,
-  $management = $::sysctl::params::management,
+  $management = undef,
   $ensure     = undef,
 ) {
 
-  notify {"value:  ${management}":}
-  notify {"value fully qualified: ${::sysctl::params::management}":}
+  include ::sysctl::params
+
+  if $management == undef {
+    $management_real = $::sysctl::params::management
+  } else {
+    $management_real = $management
+  }
 
   # validate management input
-  if ! member(['directory', 'file'], $management) {
+  if ! member(['directory', 'file'], $management_real) {
     fail ("you must specify either directory or file")
   }
 
-  case $management {
+  case $management_real {
     'directory': {
       include ::sysctl::base
 
