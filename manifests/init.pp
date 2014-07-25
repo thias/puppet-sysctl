@@ -35,10 +35,6 @@ define sysctl (
     'directory': {
       include ::sysctl::base
 
-      if $osfamily == 'FreeBSD' {
-        fail ("FreeBSD does not support /etc/sysctl.d")
-      }
-
       # If we have a prefix, then add the dash to it
       if $prefix {
         $sysctl_d_file = "${prefix}-${title}.conf"
@@ -76,7 +72,7 @@ define sysctl (
           command     => "sed -i -e '/^${title} *=/d' /etc/sysctl.conf",
           path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
           refreshonly => true,
-          unless      => "grep -E '^${title} *=' /etc/sysctl.conf",
+          onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
         }
 
       } else {
