@@ -4,7 +4,11 @@
 #
 class sysctl::base (
   $purge = false,
-) {
+) inherits params {
+
+  $sysctl_dir_location = $::sysctl::params::sysctl_dir_location
+  $group               = $::systcl::params::group
+  $mode                = $::sysctl::params::mode
 
   if $purge {
     $recurse = true
@@ -12,11 +16,11 @@ class sysctl::base (
     $recurse = false
   }
 
-  file { '/etc/sysctl.d':
+  file { $sysctl_dir_location:
     ensure  => directory,
     owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
+    group   => $group,
+    mode    => $mode,
     # Magic hidden here
     purge   => $purge,
     recurse => $recurse,
