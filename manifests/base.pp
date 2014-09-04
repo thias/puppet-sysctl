@@ -3,9 +3,21 @@
 # Common part for the sysctl definition. Not meant to be used on its own.
 #
 class sysctl::base (
-  $purge     = false,
-  $symlink99 = $::sysctl::params::symlink99,
+  $purge              = false,
+  $symlink99          = $::sysctl::params::symlink99,
+  $values             = undef,
+  $hiera_merge_values = false,
 ) inherits ::sysctl::params {
+
+  if $hiera_merge_values == true {
+    $values_real = hiera_hash('sysctl::base::values')
+  } else {
+    $values_real = $values
+  }
+
+  if $values_real != undef {
+    create_resources(sysctl,$values_real)
+  }
 
   if $purge {
     $recurse = true
