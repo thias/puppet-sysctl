@@ -56,3 +56,38 @@ To enable purging of settings, you can use hiera to set the `sysctl::base`
 sysctl::base::purge: true
 ```
  
+## Hiera
+
+It is also possible to manage all sysctl keys using hiera, through the
+`$values` parameter of the `sysctl::base` class. If sysctl values are spread
+across different hiera locations, it's also possible to merge all of them
+instead of having only the last one applied, by setting the
+`$hiera_merge_values` parameter to true.
+
+```yaml
+sysctl::base::values:
+  net.ipv4.ip_forward:
+    value: '1'
+  net.core.somaxconn:
+    value: '65536'
+  vm.swappiness:
+    ensure: absent
+```
+
+## Original /etc/sysctl.d entries
+
+When purging, puppet might want to remove files from `/etc/sysctl.d/` which
+have not been created by puppet, but need to be present. It's possible to
+set the same values for the same keys using puppet, but if the file comes from
+an OS package which gets updated, it might re-appear when the package gets
+updated. To work around this issue, it's possible to simply manage an
+identical file with this module. Example :
+
+```puppet
+package { 'libvirt': ensure => installed } ->
+sysctl { 'libvirtd':
+  suffix => '',
+  source => "puppet:///modules/${module_name}/libvirtd.sysctl",
+}
+```
+
