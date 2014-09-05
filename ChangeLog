@@ -1,3 +1,4 @@
+2014-09-05 - 1.0.0
 * Keep the 99-sysctl.conf symlink on RHEL7.
 * Add support for hiera defined sysctl values (#14, @emahags).
 * Add support for source, content and configurable file suffix.
