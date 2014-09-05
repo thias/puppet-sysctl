@@ -1,5 +1,6 @@
 * Keep the 99-sysctl.conf symlink on RHEL7.
 * Add support for hiera defined sysctl values (#14, @emahags).
+* Add support for source, content and configurable file suffix.
 
 2014-07-19 - 0.3.2
 * Use a different separator for sed to allow values with '/' (#11, @rubenk).

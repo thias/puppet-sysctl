@@ -15,19 +15,30 @@
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
 define sysctl (
+  $ensure  = undef,
   $value   = undef,
   $prefix  = undef,
+  $suffix  = '.conf',
   $comment = undef,
-  $ensure  = undef,
+  $content = undef,
+  $source  = undef,
 ) {
 
   include '::sysctl::base'
 
   # If we have a prefix, then add the dash to it
   if $prefix {
-    $sysctl_d_file = "${prefix}-${title}.conf"
+    $sysctl_d_file = "${prefix}-${title}${suffix}"
   } else {
-    $sysctl_d_file = "${title}.conf"
+    $sysctl_d_file = "${title}${suffix}"
+  }
+
+  # If we have an explicit content or source, use them
+  if $content or $source {
+    $file_content = $content
+    $file_source = $source
+  } else {
+    $file_content = template("${module_name}/sysctl.d-file.erb")
   }
 
   if $ensure != 'absent' {
@@ -40,7 +51,8 @@ define sysctl (
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      content => template("${module_name}/sysctl.d-file.erb"),
+      content => $file_content,
+      source  => $file_source,
       notify  => [
         Exec["sysctl-${title}"],
         Exec["update-sysctl.conf-${title}"],
