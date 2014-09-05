@@ -2,6 +2,7 @@
 * Add support for hiera defined sysctl values (#14, @emahags).
 * Add support for source, content and configurable file suffix.
 * Allow comment to be any of string (even multi-line) or array (#12).
+* Start adding support for setting sysctl_dir to false.
 
 2014-07-19 - 0.3.2
 * Use a different separator for sed to allow values with '/' (#11, @rubenk).
