@@ -1,0 +1,17 @@
+{
+  "name": "thias-sysctl",
+  "version": "1.0.1",
+  "author": "Matthias Saou",
+  "license": "Apache-2.0",
+  "summary": "Sysctl module",
+  "source": "https://github.com/thias/puppet-sysctl",
+  "project_page": "https://forge.puppetlabs.com/thias/sysctl",
+  "issues_url": "https://github.com/thias/puppet-sysctl/issues",
+  "tags": ["sysctl", "os"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "5.0", "6.0", "7.0" ]
+    }
+  ],
+}
