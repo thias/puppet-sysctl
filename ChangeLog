@@ -1,3 +1,6 @@
+2014-12-22 - 1.0.2
+* Fix metadata.json file (#18).
+
 2014-12-16 - 1.0.1
 * Replace Modulefile with metadata.json.
 
