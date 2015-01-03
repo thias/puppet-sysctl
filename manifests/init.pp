@@ -39,6 +39,7 @@ define sysctl (
     $file_source = $source
   } else {
     $file_content = template("${module_name}/sysctl.d-file.erb")
+    $file_source = undef
   }
 
   if $ensure != 'absent' {
