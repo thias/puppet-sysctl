@@ -29,12 +29,13 @@ define sysctl::variable (
     $sysctl_d_file = "${title}${suffix}"
   }
 
-# If we have an explicit content or source, use them
+  # If we have an explicit content or source, use them
   if $content or $source {
     $file_content = $content
     $file_source = $source
   } else {
     $file_content = template("${module_name}/sysctl.d-file.erb")
+    $file_source = undef
   }
 
   if $ensure != 'absent' {

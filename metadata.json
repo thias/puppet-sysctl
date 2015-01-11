@@ -1,33 +1,44 @@
 {
-  "description": "Manage sysctl variable values.",
-  "dependencies": [
-
-  ],
   "name": "thias-sysctl",
-  "project_page": "https://github.com/thias/puppet-sysctl",
-  "license": "Apache 2.0",
-  "source": "git://github.com/thias/puppet-sysctl",
+  "version": "1.0.2",
   "author": "Matthias Saou",
+  "license": "Apache-2.0",
   "summary": "Sysctl module",
-  "types": [
-
+  "source": "https://github.com/thias/puppet-sysctl",
+  "project_page": "https://forge.puppetlabs.com/thias/sysctl",
+  "issues_url": "https://github.com/thias/puppet-sysctl/issues",
+  "tags": ["sysctl", "os"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem": "RedHat",
+    "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+    "operatingsystem": "CentOS",
+    "operatingsystemrelease": [ "5", "6", "7" ]
+    },
+    {
+    "operatingsystem":"Debian",
+    "operatingsystemrelease":[ "6", "7" ]
+    },
+    {
+    "operatingsystem":"Ubuntu",
+    "operatingsystemrelease":[ "12", "14" ]
+    },
+    {
+    "operatingsystem":"FreeBSD"
+    }
   ],
-  "checksums": {
-    "tests/base.pp": "1ba89838432dbc94339097327c19ae3d",
-    "ChangeLog": "c9f87a37f83809e6d348735bae6de409",
-    "manifests/base.pp": "be6f023ad7e949a72f2b80115f812f9c",
-    "tests/init.pp": "e70e5327b9840b44699bb7fae71d47cd",
-    "Modulefile": "502d97ec47ecb5e7d39771a993d8d90f",
-    "spec/defines/sysctl_init_spec.rb": "21d524df70961750cb22f6b83349093e",
-    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
-    "Gemfile": "3ad486d60d90bfe4395b368b95481e01",
-    "LICENSE": "99219472697a01561e7630d63aaecdc1",
-    "README.md": "eecd73855d8815a56cbf13de841208f5",
-    "manifests/params.pp": "d9387d767c84b0bb0213f82267e186aa",
-    "Rakefile": "ab253b919e7093c2a5eb7adf0e39ffbc",
-    "templates/sysctl.d-file.erb": "47e03b3e2b70bc7586271be8b9a6473d",
-    "spec/classes/sysctl_base_spec.rb": "6241cf3e290871c00b1bb3bbd5490108",
-    "manifests/init.pp": "1fbf64472b67ecceeffde36b91145884"
-  },
-  "version": "1.0.0"
+  "requirements": [
+    {
+    "name": "pe",
+    "version_requirement": "3.x"
+    },
+    {
+    "name": "puppet",
+    "version_requirement": ">=2.7.20 <4.0.0"
+    }
+  ],
+  "description": "Manage sysctl variable values.",
+  "dependencies": []
 }

@@ -1,3 +1,9 @@
+2014-12-22 - 1.0.2
+* Fix metadata.json file (#18).
+
+2014-12-16 - 1.0.1
+* Replace Modulefile with metadata.json.
+
 2014-09-05 - 1.0.0
 * Keep the 99-sysctl.conf symlink on RHEL7.
 * Add support for hiera defined sysctl values (#14, @emahags).
