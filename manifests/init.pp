@@ -28,10 +28,14 @@ define sysctl (
 
   # If we have a prefix, then add the dash to it
   if $prefix {
-    $sysctl_d_file = "${prefix}-${title}${suffix}"
+    $_sysctl_d_file = "${prefix}-${title}${suffix}"
   } else {
-    $sysctl_d_file = "${title}${suffix}"
+    $_sysctl_d_file = "${title}${suffix}"
   }
+
+  # Some sysctl keys contain a slash, which is not valid in a filename.
+  # Most common at those on VLANs: net.ipv4.conf.eth0/1.arp_accept = 0
+  $sysctl_d_file = regsubst($_sysctl_d_file, '/', '_', 'G')
 
   # If we have an explicit content or source, use them
   if $content or $source {
