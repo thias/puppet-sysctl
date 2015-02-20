@@ -75,6 +75,15 @@ define sysctl (
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
     }
 
+    if ! ( $content or $source ) {
+        # If you supply an arbitrary value for the sysctl.d file we cannot
+        # check the running configuration
+        exec { "check-sysctl-value-${title}":
+            unless  => "/usr/bin/test `/sbin/sysctl -n ${title}` = ${value}",
+            command => "/sbin/sysctl -w ${title}=\"${value}\"",
+        }
+    }
+
   } else {
 
     # Absent
