@@ -4,8 +4,8 @@
   "author": "Matthias Saou",
   "license": "Apache-2.0",
   "summary": "Sysctl module",
-  "source": "https://github.com/thias/puppet-sysctl",
-  "project_page": "https://forge.puppetlabs.com/thias/sysctl",
+  "source": "git://github.com/thias/puppet-sysctl.git",
+  "project_page": "https://github.com/thias/puppet-sysctl",
   "issues_url": "https://github.com/thias/puppet-sysctl/issues",
   "tags": ["sysctl", "os"],
   "operatingsystem_support": [
