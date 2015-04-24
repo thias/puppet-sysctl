@@ -1,3 +1,7 @@
+# Sysctl directory parameters
+#
+# This class is not supposed to be used on its own.
+#
 class sysctl::params {
 
   # Keep the original symlink if we purge, to avoid ping-pong with initscripts
