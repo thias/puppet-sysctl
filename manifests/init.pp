@@ -62,7 +62,8 @@ define sysctl (
 
     # The immediate change + re-check on each run "just in case"
     exec { "sysctl-${title}":
-      command     => "/sbin/sysctl -p /etc/sysctl.d/${sysctl_d_file}",
+      command     => "sysctl -p /etc/sysctl.d/${sysctl_d_file}",
+      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       require     => File["/etc/sysctl.d/${sysctl_d_file}"],
     }
