@@ -81,7 +81,7 @@ define sysctl (
         $qTitle = shellquote($title)
         $qValue = shellquote($value)
         $qKV    = shellquote("${title}=${value}")
-        exec { "check-sysctl-value-${title}":
+        exec { "enforce-sysctl-value-${title}":
             unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qTitle})\" = ${qValue}",
             command => "/sbin/sysctl -w ${qKV}",
         }
