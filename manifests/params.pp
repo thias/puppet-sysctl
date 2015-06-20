@@ -1,12 +1,18 @@
-class sysctl::params {
-
-  # Keep the original symlink if we purge, to avoid ping-pong with initscripts
-  case "${::osfamily}-${::operatingsystemmajrelease}" {
-    'RedHat-7': {
-      $symlink99 = true
-    }
-    default: {
-      $symlink99 = false
+class sysctl::params(
+	$keep_symlink99 = false,
+) {
+  if $keep_symlink99 {
+  	$symlink99 = true
+  }
+  else {
+    # Keep the original symlink if we purge, to avoid ping-pong with initscripts
+    case "${::osfamily}-${::operatingsystemmajrelease}" {
+      'RedHat-7', 'Debian-9': {
+        $symlink99 = true
+      }
+      default: {
+        $symlink99 = false
+      }
     }
   }
 
@@ -24,4 +30,3 @@ class sysctl::params {
   }
 
 }
-
