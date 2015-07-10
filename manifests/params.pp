@@ -15,6 +15,7 @@ class sysctl::params {
       $sysctl_dir = false
     }
     default: {
+      $sysctl_file = '/etc/sysctl.conf'
       $sysctl_dir = true
       $sysctl_dir_path = '/etc/sysctl.d'
       $sysctl_dir_owner = 'root'
