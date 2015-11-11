@@ -7,7 +7,7 @@
   "source": "git://github.com/thias/puppet-sysctl.git",
   "project_page": "https://github.com/thias/puppet-sysctl",
   "issues_url": "https://github.com/thias/puppet-sysctl/issues",
-  "tags": ["sysctl", "os"],
+  "tags": [ "sysctl", "os" ],
   "operatingsystem_support": [
     {
     "operatingsystem": "RedHat",
@@ -18,15 +18,15 @@
     "operatingsystemrelease": [ "5", "6", "7" ]
     },
     {
-    "operatingsystem":"Debian",
-    "operatingsystemrelease":[ "6", "7" ]
+    "operatingsystem": "Debian",
+    "operatingsystemrelease": [ "6", "7" ]
     },
     {
-    "operatingsystem":"Ubuntu",
-    "operatingsystemrelease":[ "12", "14" ]
+    "operatingsystem": "Ubuntu",
+    "operatingsystemrelease": [ "12", "14" ]
     },
     {
-    "operatingsystem":"FreeBSD"
+    "operatingsystem": "FreeBSD"
     }
   ],
   "requirements": [
@@ -36,9 +36,8 @@
     },
     {
     "name": "puppet",
-    "version_requirement": ">=2.7.20 <4.0.0"
+    "version_requirement": ">=2.7.20 <4.1.0"
     }
   ],
-  "description": "Manage sysctl variable values.",
   "dependencies": []
 }
