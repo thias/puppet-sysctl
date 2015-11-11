@@ -16,7 +16,7 @@ class sysctl::base (
 
   # Hiera support
   if $hiera_merge_values == true {
-    $values_real = hiera_hash('sysctl::base::values')
+    $values_real = hiera_hash('sysctl::base::values', {})
   } else {
     $values_real = $values
   }
