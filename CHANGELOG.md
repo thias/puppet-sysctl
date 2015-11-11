@@ -1,5 +1,6 @@
 * Update project_page and source in metadata.json file (#25).
 * Prevent spaces in file names (#31, @jokajak).
+* Add support for Debian 8 (same symlink99 as RedHat 7).
 
 #### 2014-12-22 - 1.0.2
 * Fix metadata.json file (#18).
