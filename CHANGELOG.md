@@ -1,4 +1,5 @@
 * Update project_page and source in metadata.json file (#25).
+* Add default value to hiera_hash call (#30, @tedivm).
 * Prevent spaces in file names (#31, @jokajak).
 * Add support for Debian 8 (same symlink99 as RedHat 7).
 
