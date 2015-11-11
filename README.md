@@ -55,6 +55,18 @@ To enable purging of settings, you can use hiera to set the `sysctl::base`
 # sysctl
 sysctl::base::purge: true
 ```
+
+If purging is enabled, check if your system uses a symlink called 
+/etc/sysctl.d/99-sysctl.conf. You explicity can keep this symlink if you set the
+`sysctl::params` `keep_symlink99` parameter to true.
+```puppet
+sysctl::params { keep_symlink99 => true }
+sysctl::base { purge => true }
+```
+
+This symlink is kept by default on RedHat 7 and Debian 8
+
+
  
 ## Hiera
 

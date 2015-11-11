@@ -1,5 +1,10 @@
 * Update project_page and source in metadata.json file (#25).
 
+2015-06-20 - 1.0.3
+Improve handling of the symlink /etc/sysctl.d/99-sysctl.conf
+* Add parameter sysctl::params $keep_symlink99
+* Keep automatically /etc/sysctl.d/99-sysctl.conf on Debian 8 
+
 2014-12-22 - 1.0.2
 * Fix metadata.json file (#18).
 
