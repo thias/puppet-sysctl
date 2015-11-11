@@ -35,7 +35,7 @@ define sysctl (
 
   # Some sysctl keys contain a slash, which is not valid in a filename.
   # Most common at those on VLANs: net.ipv4.conf.eth0/1.arp_accept = 0
-  $sysctl_d_file = regsubst($_sysctl_d_file, '/', '_', 'G')
+  $sysctl_d_file = regsubst($_sysctl_d_file, '[/ ]', '_', 'G')
 
   # If we have an explicit content or source, use them
   if $content or $source {
