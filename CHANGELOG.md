@@ -1,3 +1,4 @@
+#### 2016-02-02 - 1.0.3
 * Update project_page and source in metadata.json file (#25).
 * Add default value to hiera_hash call (#30, @tedivm).
 * Prevent spaces in file names (#31, @jokajak).

@@ -3,7 +3,7 @@
 ## Overview
 
 Manage sysctl variable values. All changes are immediately applied, as well as
-configured to become persistent. Tested on Red Hat Enterprise Linux 6.
+configured to become persistent. Tested on Red Hat Enterprise Linux 6 and 7.
 
  * `sysctl` : Definition to manage sysctl variables by setting a value.
  * `sysctl::base`: Base class (included from the definition).
