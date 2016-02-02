@@ -22,6 +22,7 @@ define sysctl (
   $comment = undef,
   $content = undef,
   $source  = undef,
+  $enforce = true,
 ) {
 
   include '::sysctl::base'
@@ -78,6 +79,16 @@ define sysctl (
       path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
+    }
+
+    # Enforce configured value during each run (can't work with custom files)
+    if $enforce and ! ( $content or $source ) {
+      $qtitle = shellquote($title)
+      $qvalue = shellquote($value)
+      exec { "enforce-sysctl-value-${qtitle}":
+          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
+          command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
+      }
     }
 
   } else {
