@@ -3,6 +3,7 @@
 * Prevent spaces in file names (#31, @jokajak).
 * Add support for Debian 8 (same symlink99 as RedHat 7).
 * Enforce values on each run by default (#23, @jjneely).
+* Remove incorrectly advertised FreeBSD support (#27, @b4ldr).
 
 #### 2014-12-22 - 1.0.2
 * Fix metadata.json file (#18).
