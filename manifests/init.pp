@@ -84,7 +84,11 @@ define sysctl (
     # Enforce configured value during each run (can't work with custom files)
     if $enforce and ! ( $content or $source ) {
       $qtitle = shellquote($title)
-      $qvalue = shellquote($value)
+      # Value may contain '|' and others, we need to quote to be safe
+      # Convert any numerical to expected string, 0 instead of '0' would fail
+      # lint:ignore:only_variable_string Convert numerical to string
+      $qvalue = shellquote("${value}")
+      # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
           unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
           command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
