@@ -1,3 +1,6 @@
+#### 2016-02-05 - 1.0.6
+* Real fix enforcing for values with spaces, convert tabs to spaces (#37, @mattpascoe).
+ 
 #### 2016-02-05 - 1.0.5
 * Fix enforcing for values with spaces (#37, @mattpascoe).
 
