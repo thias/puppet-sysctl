@@ -1,3 +1,4 @@
+#### 2016-02-05 - 1.0.5
 * Fix enforcing for values with spaces (#37, @mattpascoe).
 
 #### 2016-02-02 - 1.0.4
