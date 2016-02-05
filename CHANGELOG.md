@@ -1,3 +1,5 @@
+* Fix enforcing for values with spaces (#37, @mattpascoe).
+
 #### 2016-02-02 - 1.0.4
 * Convert numerical value to string to work around shellquote() failure (#35).
 
