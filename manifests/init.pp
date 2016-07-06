@@ -17,6 +17,7 @@
 define sysctl (
   $ensure  = undef,
   $value   = undef,
+  $unless  = undef,
   $prefix  = undef,
   $suffix  = '.conf',
   $comment = undef,
@@ -88,9 +89,14 @@ define sysctl (
       # Convert any numerical to expected string, 0 instead of '0' would fail
       # lint:ignore:only_variable_string Convert numerical to string
       $qvalue = shellquote("${value}")
+      if $validate {
+        $rvalue = shellquote("${unless}")
+      } else {
+        $rvalue = $qvalue
+      }
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
-          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
+          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = \"$(/bin/echo -e '${rvalue}')\"",
           command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
       }
     }
@@ -107,4 +113,3 @@ define sysctl (
   }
 
 }
-
