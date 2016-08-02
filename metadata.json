@@ -36,5 +36,6 @@
     "version_requirement": ">=2.7.20 <4.1.0"
     }
   ],
-  "dependencies": []
+  "dependencies": [],
+  "data_provider": "hiera"
 }

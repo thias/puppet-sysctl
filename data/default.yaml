@@ -1,0 +1,14 @@
+---
+lookup_options:
+  sysctl::values:
+    merge: deep
+
+sysctl::purge: false
+sysctl::values: {}
+sysctl::symlink99: false
+
+sysctl::sysctl_dir: true
+sysctl::sysctl_dir_path: '/etc/sysctl.d'
+sysctl::sysctl_dir_owner: root
+sysctl::sysctl_dir_group: root
+sysctl::sysctl_dir_mode: '0755'

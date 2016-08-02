@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'sysctl', :type => :define do
+describe 'sysctl::configuration', :type => :define do
   let(:title) { 'net.ipv4.ip_forward'}
 
   context 'present' do
