@@ -12,17 +12,17 @@
 # Sample Usage :
 #  sysctl::configuration { 'net.ipv6.bindv6only': value => '1' }
 define sysctl::configuration (
-  String $variable      = $title,
-  String $ensure        = 'present',
-  String $value         = undef,
-  String $prefix        = undef,
-  String $suffix        = '.conf',
-  String $comment       = undef,
-  String $content       = undef,
-  String $source        = undef,
-  Boolean $enforce      = true,
-  String $sysctl_binary,
-  String $sysctl_dir_path,
+  String $variable               = $title,
+  String $ensure                 = 'present',
+  Variant[String,Undef] $value   = undef,
+  Variant[String,Undef] $prefix  = undef,
+  String $suffix                 = '.conf',
+  Variant[String,Undef] $comment = undef,
+  Variant[String,Undef] $content = undef,
+  Variant[String,Undef] $source  = undef,
+  Boolean $enforce               = true,
+  String $sysctl_binary          = '/sbin/sysctl',
+  String $sysctl_dir_path        = '/etc/sysctl.d',
 ) {
 
   # If we have a prefix, then add the dash to it
@@ -49,6 +49,30 @@ define sysctl::configuration (
 
     # Present
 
+    # Enforce configured value during each run when set by value
+    # (doesn't work with custom files)
+    $enforcing = $enforce and ! ( $content or $source )
+    if $enforcing {
+      $qvariable = shellquote($variable)
+      # Value may contain '|' and others, we need to quote to be safe
+      # Convert any numerical to expected string, 0 instead of '0' would fail
+      # lint:ignore:only_variable_string Convert numerical to string
+      $qvalue = shellquote("${value}")
+      # lint:endignore
+      exec { "enforce-sysctl-value-${qvariable}":
+        command => "${sysctl_binary} -w ${qvariable}=${qvalue}",
+        path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+        unless  => "test \"$(${sysctl_binary} -n ${qvariable})\" = ${qvalue}",
+      }
+    }
+
+    # if we are enforcing values on every run, do so only if the file
+    # doesn't need updating
+    $before = $enforcing ? {
+      true  => Exec["enforce-sysctl-value-${qvariable}"],
+      false => undef,
+    }
+
     # Temporary file created and "sysctl -p filename" is run on that
     # If exit code is 0, the kernel setting has changed and puppet
     # copies the file to its permanent location.
@@ -62,31 +86,18 @@ define sysctl::configuration (
       mode         => '0644',
       content      => $file_content,
       source       => $file_source,
-      notify       => Exec["update-sysctl.conf-${variable}"],
+      notify       => Exec["remove-${variable}-from-sysctl.conf"],
       validate_cmd => "${sysctl_binary} -p %",
+      before       => $before,
     }
 
-    # For the few original values from the main file
-    exec { "update-sysctl.conf-${variable}":
-      command     => "sed -i -e 's#^${variable} *=.*#${variable} = ${value}#' /etc/sysctl.conf",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
-      refreshonly => true,
-      onlyif      => "grep -E '^${variable} *=' /etc/sysctl.conf",
-    }
-
-    # Enforce configured value during each run (can't work with custom files)
-    if $enforce and ! ( $content or $source ) {
-      $qvariable = shellquote($variable)
-      # Value may contain '|' and others, we need to quote to be safe
-      # Convert any numerical to expected string, 0 instead of '0' would fail
-      # lint:ignore:only_variable_string Convert numerical to string
-      $qvalue = shellquote("${value}")
-      # lint:endignore
-      exec { "enforce-sysctl-value-${qvariable}":
-          command => "${sysctl_binary} -w ${qtitle}=${qvalue}",
-          path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
-          unless  => "test \"$(${sysctl_binary} -n ${qvariable})\" = ${qvalue}",
-      }
+    # Remove any entries from the main sysctl.conf because we have
+    # already set them in /etc/sysctl.d
+    exec { "remove-${variable}-from-sysctl.conf":
+      command => "sed -i -e '/^${variable} *=/d' /etc/sysctl.conf",
+      path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+      onlyif  => "grep -E '^${variable} *=' /etc/sysctl.conf",
+      require => File["${sysctl_dir_path}/${sysctl_d_file}"],
     }
 
   } else {
