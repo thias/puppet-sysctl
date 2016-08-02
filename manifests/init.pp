@@ -1,13 +1,18 @@
 class sysctl (Boolean $purge,
-              Hash $values,
+              Hash    $values,
               Boolean $symlink99,
+              String  $sysctl_binary,
               Boolean $sysctl_dir,
-              String $sysctl_dir_path,
-              String $sysctl_dir_owner,
-              String $sysctl_dir_group,
-              String $sysctl_dir_mode) {
+              String  $sysctl_dir_path,
+              String  $sysctl_dir_owner,
+              String  $sysctl_dir_group,
+              String  $sysctl_dir_mode) {
 
-  create_resources(sysctl::configuration, $values)
+  $defaults = {
+    sysctl_binary   => $sysctl_binary,
+    sysctl_dir_path => $sysctl_dir_path,
+  }
+  create_resources(sysctl::configuration, $values, $defaults)
 
   if $sysctl_dir {
     # if we're purging we should also recurse
