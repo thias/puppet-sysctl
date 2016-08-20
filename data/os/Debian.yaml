@@ -1,2 +1,2 @@
 ---
-sysctl::sysctl_binary: '/sbin/sysctl'
+sysctl::symlink99: true
