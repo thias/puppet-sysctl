@@ -57,12 +57,12 @@ define sysctl::configuration (
       # Value may contain '|' and others, we need to quote to be safe
       # Convert any numerical to expected string, 0 instead of '0' would fail
       # lint:ignore:only_variable_string Convert numerical to string
-      $qvalue = shellquote("${value}")
+      $qvalue = shellquote($value)
       # lint:endignore
       exec { "enforce-sysctl-value-${qvariable}":
         command => "${sysctl_binary} -w ${qvariable}=${qvalue}",
         path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
-        unless  => "test \"$(${sysctl_binary} -n ${qvariable})\" = ${qvalue}",
+        unless  => "test \"$(${sysctl_binary} -n ${qvariable} | sed \"s,[[:space:]]\+, ,g\")\" = ${qvalue}",
       }
     }
 
