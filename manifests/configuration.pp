@@ -62,7 +62,7 @@ define sysctl::configuration (
       exec { "enforce-sysctl-value-${qvariable}":
         command => "${sysctl_binary} -w ${qvariable}=${qvalue}",
         path    => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
-        unless  => "test \"$(${sysctl_binary} -n ${qvariable} | sed \"s,[[:space:]]\+, ,g\")\" = ${qvalue}",
+        unless  => "test \"$(${sysctl_binary} -n ${qvariable} | sed \"s,[[:space:]]\\+, ,g\")\" = ${qvalue}",
       }
     }
 
