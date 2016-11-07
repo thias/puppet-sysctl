@@ -1,1 +1,1 @@
-include sysctl::base
+include ::sysctl::base
