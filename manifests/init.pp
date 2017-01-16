@@ -39,8 +39,11 @@ define sysctl (
   $sysctl_d_file = regsubst($_sysctl_d_file, '[/ ]', '_', 'G')
 
   # If we have an explicit content or source, use them
-  if $content or $source {
+  if $content {
     $file_content = $content
+    $file_source = undef
+  } elsif $source {
+    $file_content = undef
     $file_source = $source
   } else {
     $file_content = template("${module_name}/sysctl.d-file.erb")
