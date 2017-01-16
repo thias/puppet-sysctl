@@ -7,6 +7,7 @@ class sysctl::base (
   $values             = undef,
   $hiera_merge_values = false,
   $symlink99          = $::sysctl::params::symlink99,
+  $sysctl_file        = $::sysctl::params::sysctl_file,
   $sysctl_dir         = $::sysctl::params::sysctl_dir,
   $sysctl_dir_path    = $::sysctl::params::sysctl_dir_path,
   $sysctl_dir_owner   = $::sysctl::params::sysctl_dir_owner,
@@ -27,6 +28,9 @@ class sysctl::base (
   if $sysctl_dir {
     if $purge {
       $recurse = true
+      file { $sysctl_file:
+        ensure => absent
+      }
     } else {
       $recurse = false
     }
