@@ -55,7 +55,7 @@ To enable purging of settings, you can use hiera to set the `sysctl::base`
 # sysctl
 sysctl::base::purge: true
 ```
- 
+
 ## Hiera
 
 It is also possible to manage all sysctl keys using hiera, through the
@@ -90,4 +90,3 @@ sysctl { 'libvirtd':
   source => "puppet:///modules/${module_name}/libvirtd.sysctl",
 }
 ```
-
