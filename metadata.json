@@ -24,6 +24,10 @@
     {
     "operatingsystem": "Ubuntu",
     "operatingsystemrelease": [ "12", "14" ]
+    },
+    {
+    "operatingsystem": "Suse",
+    "operatingsystemrelease": [ "12" ]
     }
   ],
   "requirements": [
