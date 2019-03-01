@@ -1,7 +1,7 @@
 class sysctl::params {
 
   # Keep the original symlink if we purge, to avoid ping-pong with initscripts
-  case "${::osfamily}-${::operatingsystemmajrelease}" {
+  case "${facts['osfamily']}-${facts['operatingsystemmajrelease']}" {
     'RedHat-7','Debian-8': {
       $symlink99 = true
     }
@@ -10,7 +10,7 @@ class sysctl::params {
     }
   }
 
-  case $::osfamily {
+  case $facts['osfamily'] {
     'FreeBSD': {
       $sysctl_dir = false
     }
