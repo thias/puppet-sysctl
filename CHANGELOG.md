@@ -1,3 +1,5 @@
+* Add missing owner/group to 99-sysctl.conf that could get inherited.
+
 #### 2016-02-05 - 1.0.6
 * Revert previous incorrect change, more work is needed to cover all cases.
 

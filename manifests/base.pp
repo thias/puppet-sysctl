@@ -31,7 +31,7 @@ class sysctl::base (
       $recurse = false
     }
     file { $sysctl_dir_path:
-      ensure  => directory,
+      ensure  => 'directory',
       owner   => $sysctl_dir_owner,
       group   => $sysctl_dir_group,
       mode    => $sysctl_dir_mode,
@@ -42,6 +42,8 @@ class sysctl::base (
     if $symlink99 and $sysctl_dir_path =~ /^\/etc\/[^\/]+$/ {
       file { "${sysctl_dir_path}/99-sysctl.conf":
         ensure => link,
+        owner  => $sysctl_dir_owner,
+        group  => $sysctl_dir_group,
         target => '../sysctl.conf',
       }
     }
