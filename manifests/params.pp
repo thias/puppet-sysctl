@@ -1,13 +1,13 @@
 class sysctl::params {
 
   # Keep the original symlink if we purge, to avoid ping-pong with initscripts
-  case "${::osfamily}-${::operatingsystemmajrelease}" {
-    'RedHat-7','Debian-8': {
-      $symlink99 = true
-    }
-    default: {
-      $symlink99 = false
-    }
+  if ($::osfamily == 'RedHat' and
+      versioncmp($::operatingsystemmajrelease, '7') >= 0) or
+     ($::osfamily == 'Debian' and
+      versioncmp($::operatingsystemmajrelease, '8') >= 0) {
+    $symlink99 = true
+  } else {
+    $symlink99 = false
   }
 
   case $::osfamily {
