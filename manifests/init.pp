@@ -34,6 +34,14 @@ define sysctl (
     $_sysctl_d_file = "${title}${suffix}"
   }
 
+  # Some sysctl values can contain spaces. However, the output of
+  # `sysctl -n <key>` may contain tabs instead. Therefore, we replace
+  # all whitespace characters with a single space to avoid mismatches.
+  $_value = is_string($value) ? {
+      true    => strip(regsubst($value, '\\s+', ' ', 'G')),
+      default => $value
+  }
+
   # Some sysctl keys contain a slash, which is not valid in a filename.
   # Most common at those on VLANs: net.ipv4.conf.eth0/1.arp_accept = 0
   $sysctl_d_file = regsubst($_sysctl_d_file, '[/ ]', '_', 'G')
@@ -75,7 +83,7 @@ define sysctl (
 
     # For the few original values from the main file
     exec { "update-sysctl.conf-${title}":
-      command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
+      command     => "sed -i -e 's#^${title} *=.*#${title} = ${_value}#' /etc/sysctl.conf",
       path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
@@ -87,10 +95,10 @@ define sysctl (
       # Value may contain '|' and others, we need to quote to be safe
       # Convert any numerical to expected string, 0 instead of '0' would fail
       # lint:ignore:only_variable_string Convert numerical to string
-      $qvalue = shellquote("${value}")
+      $qvalue = shellquote("${_value}")
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
-          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
+          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle} | sed 's/\\s\{1,\}/ /g')\" = ${qvalue}",
           command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
       }
     }
