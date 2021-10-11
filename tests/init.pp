@@ -7,3 +7,4 @@ sysctl { 'kernel.core_pattern':
   value   => '|/scripts/core-gzip.sh /var/tmp/core/core.%e.%p.%h.%t.gz',
   comment => 'wrapper script to gzip core dumps',
 }
+sysctl { 'kernel.printk': value => '4 4 1 7' }
