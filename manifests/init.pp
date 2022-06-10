@@ -87,7 +87,7 @@ define sysctl (
       # Value may contain '|' and others, we need to quote to be safe
       # Convert any numerical to expected string, 0 instead of '0' would fail
       # lint:ignore:only_variable_string Convert numerical to string
-      $qvalue = shellquote("${value}")
+      $qvalue = shellquote(regsubst("${value}", '\W+', "\t", 'G'))
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
           unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
