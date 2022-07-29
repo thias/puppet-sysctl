@@ -1,31 +1,32 @@
-# Define: sysctl
+# @summary Manage sysctl variable values.
 #
-# Manage sysctl variable values.
-#
-# Parameters:
-#  $value:
-#    The value for the sysctl parameter. Mandatory, unless $ensure is 'absent'.
-#  $prefix:
-#    Optional prefix for the sysctl.d file to be created. Default: none.
-#  $ensure:
+# @param ensure
 #    Whether the variable's value should be 'present' or 'absent'.
 #    Defaults to 'present'.
+# @param value
+#    The value for the sysctl parameter. Mandatory, unless $ensure is 'absent'.
+# @param prefix
+#    Optional prefix for the sysctl.d file to be created. Default: none.
+# @param suffix
+# @param comment
+# @param content
+# @param source
+# @param enforce
 #
-# Sample Usage :
+# @example
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
 define sysctl (
-  $ensure  = undef,
-  $value   = undef,
-  $prefix  = undef,
-  $suffix  = '.conf',
-  $comment = undef,
-  $content = undef,
-  $source  = undef,
-  $enforce = true,
+  Optional[Enum[present, absent]]          $ensure  = undef,
+  Optional[String]                         $value   = undef,
+  Optional[String]                         $prefix  = undef,
+  String                                   $suffix  = '.conf',
+  Optional[Variant[String, Array[String]]] $comment = undef,
+  Optional[String]                         $content = undef,
+  Optional[Stdlib::Absolutepath]           $source  = undef,
+  Boolean                                  $enforce = true,
 ) {
-
-  include '::sysctl::base'
+  include 'sysctl::base'
 
   # If we have a prefix, then add the dash to it
   if $prefix {
@@ -48,7 +49,6 @@ define sysctl (
   }
 
   if $ensure != 'absent' {
-
     # Present
 
     # The permanent change
@@ -68,7 +68,7 @@ define sysctl (
     # The immediate change + re-check on each run "just in case"
     exec { "sysctl-${title}":
       command     => "sysctl -p /etc/sysctl.d/${sysctl_d_file}",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+      path        => ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
       refreshonly => true,
       require     => File["/etc/sysctl.d/${sysctl_d_file}"],
     }
@@ -76,7 +76,7 @@ define sysctl (
     # For the few original values from the main file
     exec { "update-sysctl.conf-${title}":
       command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+      path        => ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
     }
@@ -90,21 +90,16 @@ define sysctl (
       $qvalue = shellquote("${value}")
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
-          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
-          command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
+        unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
+        command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
       }
     }
-
   } else {
-
     # Absent
     # We cannot restore values, since defaults can not be known... reboot :-/
 
     file { "/etc/sysctl.d/${sysctl_d_file}":
       ensure => absent,
     }
-
   }
-
 }
-
