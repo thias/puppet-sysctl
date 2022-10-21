@@ -26,6 +26,11 @@ define sysctl (
 ) {
 
   include '::sysctl::base'
+  
+  # to symplify the management of paths
+  Exec {
+    path => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
+  }
 
   # If we have a prefix, then add the dash to it
   if $prefix {
@@ -68,7 +73,6 @@ define sysctl (
     # The immediate change + re-check on each run "just in case"
     exec { "sysctl-${title}":
       command     => "sysctl -p /etc/sysctl.d/${sysctl_d_file}",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       require     => File["/etc/sysctl.d/${sysctl_d_file}"],
     }
@@ -76,7 +80,6 @@ define sysctl (
     # For the few original values from the main file
     exec { "update-sysctl.conf-${title}":
       command     => "sed -i -e 's#^${title} *=.*#${title} = ${value}#' /etc/sysctl.conf",
-      path        => [ '/usr/sbin', '/sbin', '/usr/bin', '/bin' ],
       refreshonly => true,
       onlyif      => "grep -E '^${title} *=' /etc/sysctl.conf",
     }
@@ -91,7 +94,7 @@ define sysctl (
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
           unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle})\" = ${qvalue}",
-          command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
+          command => "sysctl -w ${qtitle}=${qvalue}",
       }
     }
 
