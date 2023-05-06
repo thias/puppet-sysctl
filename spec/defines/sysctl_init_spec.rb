@@ -3,6 +3,13 @@ require 'spec_helper'
 describe 'sysctl', :type => :define do
   let(:title) { 'net.ipv4.ip_forward'}
 
+  let(:facts) do
+    {
+      :osfamily => 'RedHat',
+      :operatingsystemmajrelease => '8',
+    }
+  end
+
   context 'present' do
     let(:params) { { :value => '1' } }
 
