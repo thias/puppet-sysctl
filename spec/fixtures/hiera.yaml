@@ -1,0 +1,7 @@
+---
+version: 5
+hierarchy:
+- name: Spec-Fixtures
+  paths:
+  # Default for datadir is data/ (relative to hiera.yaml's Directory)
+  - common.yaml
