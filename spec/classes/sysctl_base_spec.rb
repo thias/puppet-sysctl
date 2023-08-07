@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'sysctl::base', :type => :class do
+  let(:facts) do
+    {
+      osfamily: 'RedHat',
+      operatingsystemmajrelease: '8',
+    }
+  end
 
   let(:facts) do
     {
