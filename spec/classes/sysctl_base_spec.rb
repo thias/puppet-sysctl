@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'sysctl::base', :type => :class do
+describe 'sysctl::base', type: :class do
   let(:facts) do
     {
       os: {
@@ -12,8 +12,6 @@ describe 'sysctl::base', :type => :class do
     }
   end
 
-  it { should create_class('sysctl::base') }
-  it { should contain_file('/etc/sysctl.d') }
-
+  it { is_expected.to create_class('sysctl::base') }
+  it { is_expected.to contain_file('/etc/sysctl.d') }
 end
-
