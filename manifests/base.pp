@@ -50,11 +50,6 @@ class sysctl::base (
   }
 
   if $sysctl_dir {
-    if $purge {
-      $recurse = true
-    } else {
-      $recurse = false
-    }
     file { $sysctl_dir_path:
       ensure  => 'directory',
       owner   => $sysctl_dir_owner,
@@ -62,7 +57,7 @@ class sysctl::base (
       mode    => $sysctl_dir_mode,
       # Magic hidden here
       purge   => $purge,
-      recurse => $recurse,
+      recurse => $purge,
     }
     if $symlink99 and $sysctl_dir_path =~ /^\/etc\/[^\/]+$/ {
       file { "${sysctl_dir_path}/99-sysctl.conf":
