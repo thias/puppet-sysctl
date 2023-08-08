@@ -31,7 +31,7 @@
 #   Enforce configured value during each run (can't work with custom files).
 #
 define sysctl (
-  Optional[Enum['present', 'absent']] $ensure  = undef,
+  Enum['present', 'absent']           $ensure  = 'present',
   Optional[String[1]]                 $value   = undef,
   Optional[String[1]]                 $prefix  = undef,
   String                              $suffix  = '.conf',
@@ -62,9 +62,7 @@ define sysctl (
     $file_source = undef
   }
 
-  if $ensure != 'absent' {
-    # Present
-
+  if $ensure == 'present' {
     # The permanent change
     file { "/etc/sysctl.d/${sysctl_d_file}":
       ensure  => $ensure,

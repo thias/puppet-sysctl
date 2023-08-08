@@ -23,7 +23,7 @@ describe 'sysctl', type: :define do
 
       it do
         is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').only_with(
-          ensure:   nil,
+          ensure:   'present',
           owner:    'root',
           group:    'root',
           mode:     '0644',
