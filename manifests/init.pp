@@ -54,12 +54,10 @@ define sysctl (
   $sysctl_d_file = regsubst($_sysctl_d_file, '[/ ]', '_', 'G')
 
   # If we have an explicit content or source, use them
-  if $content or $source {
+  if $content {
     $file_content = $content
-    $file_source = $source
   } else {
     $file_content = template("${module_name}/sysctl.d-file.erb")
-    $file_source = undef
   }
 
   if $ensure == 'present' {
@@ -70,7 +68,7 @@ define sysctl (
       group   => 'root',
       mode    => '0644',
       content => $file_content,
-      source  => $file_source,
+      source  => $source,
       notify  => [
         Exec["sysctl-${title}"],
         Exec["update-sysctl.conf-${title}"],
