@@ -11,16 +11,9 @@ class sysctl::params {
     $symlink99 = false
   }
 
-  case $facts['os']['family'] {
-    'FreeBSD': {
-      $sysctl_dir = false
-    }
-    default: {
-      $sysctl_dir = true
-      $sysctl_dir_path = '/etc/sysctl.d'
-      $sysctl_dir_owner = 'root'
-      $sysctl_dir_group = 'root'
-      $sysctl_dir_mode = '0755'
-    }
-  }
+  $sysctl_dir = true
+  $sysctl_dir_path = '/etc/sysctl.d'
+  $sysctl_dir_owner = 'root'
+  $sysctl_dir_group = 'root'
+  $sysctl_dir_mode = '0755'
 }
