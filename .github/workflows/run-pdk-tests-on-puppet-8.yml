@@ -1,0 +1,34 @@
+name: Run PDK tests on Puppet 8.x
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  validate-8:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+
+    - name: Run pdk validate
+      uses: puppets-epic-show-theatre/action-pdk-validate@v1
+      with:
+        puppet-version: "8"
+        # [optional] A string indicating the Puppet version to validate against, such as "5.4.2" or "5.5".
+        # pe-version: ""
+        # [optional] A string indicating the PE version to validate against, such as "2017.3.5" or "2018.1".
+
+  test-8:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+
+    - name: Run unit tests
+      uses: puppets-epic-show-theatre/action-pdk-test-unit@v1
+      with:
+        puppet-version: "8"
+        # [optional] A string indicating the Puppet version to validate against, such as "5.4.2" or "5.5".
+        # pe-version: ""
+        # [optional] A string indicating the PE version to validate against, such as "2017.3.5" or "2018.1".
