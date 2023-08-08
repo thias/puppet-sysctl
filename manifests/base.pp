@@ -30,7 +30,7 @@
 #
 class sysctl::base (
   Boolean        $purge              = false,
-  Optional[Hash] $values             = undef,
+  Hash           $values             = {},
   Boolean        $hiera_merge_values = false,
   Boolean        $symlink99          = $sysctl::params::symlink99,
   Boolean        $sysctl_dir         = true,
@@ -45,9 +45,8 @@ class sysctl::base (
   } else {
     $values_real = $values
   }
-  if $values_real != undef {
-    create_resources(sysctl,$values_real)
-  }
+
+  create_resources(sysctl,$values_real)
 
   if $sysctl_dir {
     file { $sysctl_dir_path:
