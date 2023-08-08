@@ -33,11 +33,11 @@ class sysctl::base (
   Optional[Hash] $values             = undef,
   Boolean        $hiera_merge_values = false,
   Boolean        $symlink99          = $sysctl::params::symlink99,
-  Boolean        $sysctl_dir         = $sysctl::params::sysctl_dir,
-  String[1]      $sysctl_dir_path    = $sysctl::params::sysctl_dir_path,
-  String[1]      $sysctl_dir_owner   = $sysctl::params::sysctl_dir_owner,
-  String[1]      $sysctl_dir_group   = $sysctl::params::sysctl_dir_group,
-  String[1]      $sysctl_dir_mode    = $sysctl::params::sysctl_dir_mode,
+  Boolean        $sysctl_dir         = true,
+  String[1]      $sysctl_dir_path    = '/etc/sysctl.d',
+  String[1]      $sysctl_dir_owner   = 'root',
+  String[1]      $sysctl_dir_group   = 'root',
+  String[1]      $sysctl_dir_mode    = '0755',
 ) inherits sysctl::params {
   # Hiera support
   if $hiera_merge_values == true {
