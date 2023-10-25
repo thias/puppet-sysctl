@@ -169,9 +169,9 @@ describe 'sysctl', type: :define do
       end
 
       context 'with source set to valid testing' do
-        let(:params) { { source: 'testing' } }
+        let(:params) { { source: '/test/ing' } }
 
-        it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with_source('testing') }
+        it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with_source('/test/ing') }
       end
 
       context 'with enforce set to valid false' do

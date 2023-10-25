@@ -37,7 +37,7 @@ define sysctl (
   String                              $suffix  = '.conf',
   Optional[Variant[Array, String[1]]] $comment = undef,
   Optional[String[1]]                 $content = undef,
-  Optional[String[1]]                 $source  = undef,
+  Optional[Stdlib::Filesource]        $source  = undef,
   Boolean                             $enforce = true,
 ) {
   include sysctl::base
