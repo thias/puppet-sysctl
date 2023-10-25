@@ -8,7 +8,10 @@
   "project_page": "https://github.com/thias/puppet-sysctl",
   "issues_url": "https://github.com/thias/puppet-sysctl/issues",
   "dependencies": [
-
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.25.0 < 10.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
