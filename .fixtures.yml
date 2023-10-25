@@ -1,4 +1,7 @@
 fixtures:
+  repositories:
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
   symlinks:
     sysctl: "#{source_dir}"
 
