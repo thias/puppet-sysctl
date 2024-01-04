@@ -13,10 +13,9 @@ class sysctl::base (
   $sysctl_dir_group   = $::sysctl::params::sysctl_dir_group,
   $sysctl_dir_mode    = $::sysctl::params::sysctl_dir_mode,
 ) inherits ::sysctl::params {
-
   # Hiera support
   if $hiera_merge_values == true {
-    $values_real = hiera_hash('sysctl::base::values', {})
+    $values_real = lookup('sysctl::base::values', {})
   } else {
     $values_real = $values
   }
@@ -48,6 +47,4 @@ class sysctl::base (
       }
     }
   }
-
 }
-
