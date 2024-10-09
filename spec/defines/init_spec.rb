@@ -53,8 +53,9 @@ describe 'sysctl', type: :define do
 
       it do
         is_expected.to contain_exec('enforce-sysctl-value-net.ipv4.ip_forward').only_with(
-          unless:  '/usr/bin/test "$(/sbin/sysctl -n net.ipv4.ip_forward)" = ""',
-          command: '/sbin/sysctl -w net.ipv4.ip_forward=""',
+          unless:  'test "$(sysctl -n net.ipv4.ip_forward)" = ""',
+          command: 'sysctl -w net.ipv4.ip_forward=""',
+          path:    ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
         )
       end
     end
@@ -92,8 +93,9 @@ describe 'sysctl', type: :define do
 
         it do
           is_expected.to contain_exec('enforce-sysctl-value-net.ipv4.ip_forward').only_with(
-            unless:  '/usr/bin/test "$(/sbin/sysctl -n net.ipv4.ip_forward)" = 1',
-            command: '/sbin/sysctl -w net.ipv4.ip_forward=1',
+            unless:  'test "$(sysctl -n net.ipv4.ip_forward)" = 1',
+            command: 'sysctl -w net.ipv4.ip_forward=1',
+            path:    ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
           )
         end
       end
