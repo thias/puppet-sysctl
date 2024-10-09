@@ -3,28 +3,38 @@
 # Manage sysctl variable values.
 #
 # Parameters:
-#  $value:
+# @param value
 #    The value for the sysctl parameter. Mandatory, unless $ensure is 'absent'.
-#  $prefix:
+# @param prefix
 #    Optional prefix for the sysctl.d file to be created. Default: none.
-#  $ensure:
+# @param suffix
+#    Optional suffix for the sysctl.d file to be created. Default: '.conf'.
+# @param comment
+#    Optional Array or String to put inside the sysctl.d file.
+# @param content
+#    File content of the specific sysctl_d_file.
+# @param source
+#    File source of the specific sysctl_d_file.
+# @param ensure
 #    Whether the variable's value should be 'present' or 'absent'.
 #    Defaults to 'present'.
+# @param enforce
+#    Boolean value for the enforcement of the rule. Default: true
 #
 # Sample Usage :
 #  sysctl { 'net.ipv6.bindv6only': value => '1' }
 #
 define sysctl (
-  $ensure  = undef,
-  $value   = undef,
-  $prefix  = undef,
-  $suffix  = '.conf',
-  $comment = undef,
-  $content = undef,
-  $source  = undef,
-  $enforce = true,
+  String                $ensure  = undef,
+  String                $value   = undef,
+  String                $prefix  = undef,
+  String                $suffix  = '.conf',
+  Variant[String,Array] $comment = undef,
+  Optional[String]      $content = undef,
+  Optional[String]      $source  = undef,
+  Boolean               $enforce = true,
 ) {
-  include '::sysctl::base'
+  include 'sysctl::base'
 
   # If we have a prefix, then add the dash to it
   if $prefix {
@@ -46,7 +56,7 @@ define sysctl (
     $file_source = undef
   }
 
-  if $ensure != 'absent' {
+  if $ensure != 'false' {
     # Present
 
     # The permanent change
