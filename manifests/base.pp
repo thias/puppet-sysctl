@@ -2,32 +2,17 @@
 #
 # Common part for the sysctl definition. Not meant to be used on its own.
 #
-# @param purge
-#    Wether to purge unmanaged files. Default: false.
-# @param values
-#    Values for the sysctl function
-
-### TODO: write documentation about these params
-
-# @param hiera_merge_values
-# @param symlink99
-# @param sysctl_dir
-# @param sysctl_dir_path
-# @param sysctl_dir_owner
-# @param sysctl_dir_group
-# @param sysctl_dir_mode
-#    
 class sysctl::base (
-  Boolean $purge              = false,
-  String  $values             = undef,
-  Boolean $hiera_merge_values = false,
-  Boolean $symlink99          = $sysctl::params::symlink99,
-  Boolean $sysctl_dir         = $sysctl::params::sysctl_dir,
-  String  $sysctl_dir_path    = $sysctl::params::sysctl_dir_path,
-  String  $sysctl_dir_owner   = $sysctl::params::sysctl_dir_owner,
-  String  $sysctl_dir_group   = $sysctl::params::sysctl_dir_group,
-  String  $sysctl_dir_mode    = $sysctl::params::sysctl_dir_mode,
-) inherits sysctl::params {
+  $purge              = false,
+  $values             = undef,
+  $hiera_merge_values = false,
+  $symlink99          = $::sysctl::params::symlink99,
+  $sysctl_dir         = $::sysctl::params::sysctl_dir,
+  $sysctl_dir_path    = $::sysctl::params::sysctl_dir_path,
+  $sysctl_dir_owner   = $::sysctl::params::sysctl_dir_owner,
+  $sysctl_dir_group   = $::sysctl::params::sysctl_dir_group,
+  $sysctl_dir_mode    = $::sysctl::params::sysctl_dir_mode,
+) inherits ::sysctl::params {
   # Hiera support
   if $hiera_merge_values == true {
     $values_real = hiera_hash('sysctl::base::values', {})
