@@ -21,8 +21,27 @@ describe 'sysctl', type: :define do
     describe "on #{os} with default values for parameters" do
       let(:facts) { facts }
 
+      it { is_expected.not_to compile }
+    end
+
+    describe "on #{os} with standardised parameters" do
+      let(:facts) { facts }
+      let(:params) do
+        {
+          value: '1',
+        }
+      end
+
       it { is_expected.to contain_class('sysctl::base') }
       # [only here to reach 100% resource coverage]
+      it {
+        is_expected.to contain_file('/etc/sysctl.d').with(
+          ensure: 'directory',
+          owner: 'root',
+          group: 'root',
+          mode: '0755',
+        )
+      }
       it { is_expected.to contain_class('sysctl::params') }
       it { is_expected.to contain_file('/etc/sysctl.d/99-sysctl.conf') } if symlink99 == true
       # [/only here to reach 100% resource coverage]
@@ -33,7 +52,7 @@ describe 'sysctl', type: :define do
           owner:    'root',
           group:    'root',
           mode:     '0644',
-          content:  header + "net.ipv4.ip_forward = \n",
+          content:  header + "net.ipv4.ip_forward = 1\n",
           source:   nil,
           notify:   ['Exec[sysctl-net.ipv4.ip_forward]', 'Exec[update-sysctl.conf-net.ipv4.ip_forward]'],
         )
@@ -50,7 +69,7 @@ describe 'sysctl', type: :define do
 
       it do
         is_expected.to contain_exec('update-sysctl.conf-net.ipv4.ip_forward').only_with(
-          command:     "sed -i -e 's#^net.ipv4.ip_forward *=.*#net.ipv4.ip_forward = #' /etc/sysctl.conf",
+          command:     "sed -i -e 's#^net.ipv4.ip_forward *=.*#net.ipv4.ip_forward = 1#' /etc/sysctl.conf",
           path:        ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
           refreshonly: true,
           onlyif:      "grep -E '^net.ipv4.ip_forward *=' /etc/sysctl.conf",
@@ -59,9 +78,8 @@ describe 'sysctl', type: :define do
 
       it do
         is_expected.to contain_exec('enforce-sysctl-value-net.ipv4.ip_forward').only_with(
-          unless:  'test "$(sysctl -n net.ipv4.ip_forward)" = ""',
-          command: 'sysctl -w net.ipv4.ip_forward=""',
-          path:    ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
+          unless:  %r{.*/usr/bin/test \"\$\(/sbin/sysctl -n net.ipv4.ip_forward | /usr/bin/sed -r -e 's/\[ \\t\]+/ /g'\)\" = 1},
+          command: '/sbin/sysctl -w net.ipv4.ip_forward=1',
         )
       end
     end
@@ -99,15 +117,19 @@ describe 'sysctl', type: :define do
 
         it do
           is_expected.to contain_exec('enforce-sysctl-value-net.ipv4.ip_forward').only_with(
-            unless:  'test "$(sysctl -n net.ipv4.ip_forward)" = 1',
-            command: 'sysctl -w net.ipv4.ip_forward=1',
-            path:    ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
+            unless:  %r{.*/usr/bin/test \"\$\(/sbin/sysctl -n net.ipv4.ip_forward | /usr/bin/sed -r -e 's/\[ \\t\]+/ /g'\)\" = 1},
+            command: '/sbin/sysctl -w net.ipv4.ip_forward=1',
           )
         end
       end
 
       context 'with prefix set to valid .testing' do
-        let(:params) { { prefix: 'testing' } }
+        let(:params) do
+          {
+            prefix: 'testing',
+            value: '1',
+          }
+        end
 
         it { is_expected.to contain_file('/etc/sysctl.d/testing-net.ipv4.ip_forward.conf') }
         it do
@@ -125,7 +147,12 @@ describe 'sysctl', type: :define do
       end
 
       context 'with suffix set to valid .testing' do
-        let(:params) { { suffix: '.testing' } }
+        let(:params) do
+          {
+            suffix: '.testing',
+            value: '1',
+          }
+        end
 
         it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.testing') }
         it do
@@ -143,39 +170,64 @@ describe 'sysctl', type: :define do
       end
 
       context 'with comment set to valid string testing' do
-        let(:params) { { comment: 'testing' } }
+        let(:params) do
+          {
+            comment: 'testing',
+            value: '1',
+          }
+        end
 
         it do
           is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with(
-            content: header + "# testing\nnet.ipv4.ip_forward = \n",
+            content: header + "# testing\nnet.ipv4.ip_forward = 1\n",
           )
         end
       end
 
       context 'with comment set to valid array [test, ing]' do
-        let(:params) { { comment: ['test', 'ing'] } }
+        let(:params) do
+          {
+            comment: ['test', 'ing'],
+            value: '1',
+          }
+        end
 
         it do
           is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with(
-            content: header + "# test\n# ing\nnet.ipv4.ip_forward = \n",
+            content: header + "# test\n# ing\nnet.ipv4.ip_forward = 1\n",
           )
         end
       end
 
       context 'with content set to valid testing' do
-        let(:params) { { content: 'testing' } }
+        let(:params) do
+          {
+            content: 'testing',
+            value: '1',
+          }
+        end
 
         it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with_content('testing') }
       end
 
       context 'with source set to valid testing' do
-        let(:params) { { source: '/test/ing' } }
+        let(:params) do
+          {
+            source: '/test/ing',
+            value: '1',
+          }
+        end
 
         it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with_source('/test/ing') }
       end
 
       context 'with enforce set to valid false' do
-        let(:params) { { enforce: false } }
+        let(:params) do
+          {
+            enforce: false,
+            value: '1',
+          }
+        end
 
         it { is_expected.not_to contain_exec('enforce-sysctl-value-net.ipv4.ip_forward') }
       end

@@ -42,6 +42,10 @@ define sysctl (
 ) {
   include sysctl::base
 
+  if ! ($ensure == 'absent') and ! $value {
+      fail("${title} was defined without a target value, failing...")
+  }
+
   # If we have a prefix, then add the dash to it
   if $prefix {
     $_sysctl_d_file = "${prefix}-${title}${suffix}"
@@ -57,7 +61,7 @@ define sysctl (
   if $content {
     $file_content = $content
   } else {
-    $file_content = template("${module_name}/sysctl.d-file.erb")
+    $file_content = epp("${module_name}/sysctl.d-file.epp", { 'comment' => $comment, 'key_name' => $title, 'key_val' => $value })
   }
 
   if $ensure == 'present' {
@@ -100,8 +104,8 @@ define sysctl (
       $qvalue = shellquote("${value}")
       # lint:endignore
       exec { "enforce-sysctl-value-${qtitle}":
-          unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle} | /usr/bin/sed -r -e 's/[ \t]+/ /g')\" = ${qvalue}",
-          command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
+        unless  => "/usr/bin/test \"$(/sbin/sysctl -n ${qtitle} | /usr/bin/sed -r -e 's/[ \t]+/ /g')\" = ${qvalue}",
+        command => "/sbin/sysctl -w ${qtitle}=${qvalue}",
       }
     }
   } else {
