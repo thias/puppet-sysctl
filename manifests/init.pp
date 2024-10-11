@@ -43,7 +43,7 @@ define sysctl (
   include sysctl::base
 
   if ! ($ensure == 'absent') and ! $value {
-      fail("${title} was defined without a target value, failing...")
+    fail("${title} was defined without a target value, failing...")
   }
 
   # If we have a prefix, then add the dash to it
