@@ -2,6 +2,8 @@
 
 ## Overview
 
+Forked for updates from thias/sysctl
+
 Manage sysctl variable values. All changes are immediately applied, as well as
 configured to become persistent. Tested on Red Hat Enterprise Linux 6 and 7.
 

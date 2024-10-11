@@ -1,50 +1,50 @@
 {
-  "name": "thias-sysctl",
-  "version": "1.0.7",
-  "author": "Matthias Saou",
+  "name": "purplejac-sysctl",
+  "version": "1.0.8",
+  "author": "Ras",
   "summary": "Sysctl module",
   "license": "Apache-2.0",
-  "source": "git://github.com/thias/puppet-sysctl.git",
-  "project_page": "https://github.com/thias/puppet-sysctl",
-  "issues_url": "https://github.com/thias/puppet-sysctl/issues",
+  "source": "git://github.com/purplejac/puppet-sysctl.git",
+  "project_page": "https://github.com/purplejac/puppet-sysctl",
+  "issues_url": "https://github.com/purplejac/puppet-sysctl/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.25.0 < 10.0.0"
+      "version_requirement": ">= 4.25.0 < 20.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "5",
-        "6",
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "5",
-        "6",
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "6",
-        "7",
-        "8"
+        "11",
+        "12",
+        "13",
+        "14"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12",
-        "14"
+        "20",
+        "22",
+        "24"
       ]
     }
   ],

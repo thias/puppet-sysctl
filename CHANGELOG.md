@@ -1,3 +1,11 @@
+#### 2024-10-11 - 1.0.8
+* Merged Paul Gale's PR to fix problem with parameter spacing in sysctl
+* Merged spindyckx PR to move from hiera_hash function to lookup
+* Merged Phil Friderici PR to move to PDK 3 and support Puppet 8
+* Moved template to ERB to EPP
+* Resolved Gem dependency clashes
+* Updated metadata for newer OSes
+
 #### 2021-06-30 - 1.0.7
 * Add missing owner/group to 99-sysctl.conf that could get inherited.
 * Fix 99-sysctl.conf being removed on RHEL8+.
