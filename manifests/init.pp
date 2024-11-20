@@ -31,14 +31,14 @@
 #   Enforce configured value during each run (can't work with custom files).
 #
 define sysctl (
-  Enum['present', 'absent']           $ensure  = 'present',
-  Optional[String[1]]                 $value   = undef,
-  Optional[String[1]]                 $prefix  = undef,
-  String                              $suffix  = '.conf',
-  Optional[Variant[Array, String[1]]] $comment = undef,
-  Optional[String[1]]                 $content = undef,
-  Optional[Stdlib::Filesource]        $source  = undef,
-  Boolean                             $enforce = true,
+  Enum['present', 'absent']             $ensure  = 'present',
+  Optional[Variant[Integer, String[1]]] $value   = undef,
+  Optional[String[1]]                   $prefix  = undef,
+  String                                $suffix  = '.conf',
+  Optional[Variant[Array, String[1]]]   $comment = undef,
+  Optional[String[1]]                   $content = undef,
+  Optional[Stdlib::Filesource]          $source  = undef,
+  Boolean                               $enforce = true,
 ) {
   include sysctl::base
 

@@ -123,6 +123,13 @@ describe 'sysctl', type: :define do
         end
       end
 
+      context 'with value set to int 1' do
+        let(:params) { { value: 1 } }
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_file('/etc/sysctl.d/net.ipv4.ip_forward.conf').with_content(header + "net.ipv4.ip_forward = 1\n") }
+      end
+
       context 'with prefix set to valid .testing' do
         let(:params) do
           {
