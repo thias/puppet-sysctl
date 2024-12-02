@@ -1,6 +1,6 @@
-<%- | Optional[Variant[Array, String[1]]] $comment,
-      String                              $key_name,
-      Optional[String[1]]                 $key_val,
+<%- | Optional[Variant[Array, String[1]]]   $comment,
+      String                                $key_name,
+      Optional[Variant[Integer, String[1]]] $key_val,
 | -%>
 # This file is being maintained by Puppet.
 # DO NOT EDIT
