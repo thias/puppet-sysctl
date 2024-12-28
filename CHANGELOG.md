@@ -1,3 +1,7 @@
+#### 2024-12-02 - 1.0.9
+* Updated metadata
+* Merged schustersv PR allowing sysctl::value to include Integer types
+
 #### 2024-10-11 - 1.0.8
 * Merged Paul Gale's PR to fix problem with parameter spacing in sysctl
 * Merged spindyckx PR to move from hiera_hash function to lookup
