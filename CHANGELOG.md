@@ -1,3 +1,6 @@
+#### 2025-01-06 - 1.0.10
+* Moved away from using an absolute path to expand compatibility across OS versions
+
 #### 2024-12-02 - 1.0.9
 * Updated metadata
 * Merged schustersv PR allowing sysctl::value to include Integer types
