@@ -1,3 +1,5 @@
+* Remove legacy facts usage.
+
 #### 2021-06-30 - 1.0.7
 * Add missing owner/group to 99-sysctl.conf that could get inherited.
 * Fix 99-sysctl.conf being removed on RHEL8+.
